@@ -1,0 +1,39 @@
+model_catalog_json = "~/.codex/model-catalog.local.json"
+
+model_provider = "dashscope"
+model = "qwen3.8-flash"
+model_reasoning_effort = "minimal"
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+disable_response_storage = true
+
+[model_providers.dashscope]
+name = "Dashscope"
+base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+env_key = "DASHSCOPE_API_KEY"
+wire_api = "responses"
+requires_openai_auth = false
+
+[desktop]
+conversationDetailMode = "STEPS_PROSE"
+sansFontSize = 14
+codeFontSize = 13
+ambient-suggestions-enabled = false
+
+[windows]
+sandbox = "unelevated"
+
+[features]
+hooks = true
+
+[projects.'c:\users\hen5szh']
+trust_level = "trusted"
+
+[hooks.state]
+
+[hooks.state.'C:\Users\hen5szh\.codex\hooks.json:session_start:0:0']
+trusted_hash = "sha256:bbb57a1878ddd9157f723a3e6a928951297acd8ca9c85f37010bb00d6e8d505f"
+
+[notice]
+hide_world_writable_warning = true
