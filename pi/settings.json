@@ -1,0 +1,8 @@
+{
+  "lastChangelogVersion": "0.85.1",
+  "shellPath": "C:/Users/xxx/AppData/Local/Programs/Git/bin/bash.exe",
+  "defaultProvider": "dashscope",
+  "defaultModel": "qwen3.8-27b",
+  "defaultThinkingLevel": "high",
+  "theme": "dark"
+}
