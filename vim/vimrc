@@ -1,0 +1,19 @@
+call plug#begin()
+
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-surround'
+Plug 'preservim/nerdtree'
+
+call plug#end()
+
+
+set number
+set relativenumber
+
+
+" File Tree
+nnoremap <leader>e :NERDTreeToggle<CR>
+
+" 打开文件时自动显示文件树
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
