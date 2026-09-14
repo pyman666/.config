@@ -2,6 +2,9 @@ PROMPT="🐈  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾
 🐱 %F{blue}%n%f %F{green}%~%f
 👉 "
 
+bindkey = v
+
+
 . "$HOME/.local/bin/env"
 # >>> migrated tools (no Homebrew) >>>
 export PATH="$HOME/.local/bin:$PATH"
