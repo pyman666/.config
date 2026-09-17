@@ -1,6 +1,7 @@
+{{- $apiKey := dig "dashscopeApiKey" "" . -}}
 {
   "env": {
-    "ANTHROPIC_AUTH_TOKEN": "sk-xxx",
+    "ANTHROPIC_AUTH_TOKEN": {{ $apiKey | toJson }},
     "ANTHROPIC_BASE_URL": "https://dashscope.aliyuncs.com/apps/anthropic",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "qwen3.8-max-0902[1m]",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "qwen3.8-27b",
@@ -8,7 +9,9 @@
     "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
     "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS": "1",
+{{- if eq .chezmoi.os "windows" }}
     "CLAUDE_CODE_USE_POWERSHELL_TOOL": "1",
+{{- end }}
     "DISABLE_AUTOUPDATER": "1"
   },
   "includeCoAuthoredBy": false,
@@ -25,20 +28,6 @@
     "deny": []
   },
   "model": "haiku",
-  "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"C:\\Users\\hen5szh\\.claude\\hooks\\herdr-agent-state.ps1\" session",
-            "timeout": 10
-          }
-        ]
-      }
-    ]
-  },
   "enabledPlugins": {
     "andrej-karpathy-skills@karpathy-skills": true,
     "jdtls-lsp@claude-plugins-official": true,

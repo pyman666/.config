@@ -1,0 +1,16 @@
+# 由 chezmoi 自动下载的外部文件（带缓存，不会每次都联网）。
+# vim-plug 本体：Windows 上两套 vim 的插件目录不同 ——
+#   Win32 vim/gvim -> ~/vimfiles      Git-Bash 里的 MSYS vim -> ~/.vim
+# ~/.vimrc 里的 plug#begin() 会自己判断，所以同一份 vimrc 两边通用。
+{{- if eq .chezmoi.os "windows" }}
+["vimfiles/autoload/plug.vim"]
+  type = "file"
+  url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+[".vim/autoload/plug.vim"]
+  type = "file"
+  url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+{{- else }}
+[".vim/autoload/plug.vim"]
+  type = "file"
+  url = "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+{{- end }}

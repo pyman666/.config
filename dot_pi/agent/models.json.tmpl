@@ -1,9 +1,10 @@
+{{- $apiKey := dig "dashscopeApiKey" "" . -}}
 {
   "providers": {
     "dashscope": {
       "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
       "api": "openai-completions",
-      "apiKey": "sk-xxx",
+      "apiKey": {{ $apiKey | toJson }},
       "compat": {
         "supportsDeveloperRole": false
       },
@@ -33,7 +34,7 @@
           "name": "Qwen3.8 27B",
           "reasoning": true,
           "input": ["text"],
-		  "contextWindow": 983616,
+          "contextWindow": 983616,
           "compat": {
             "thinkingFormat": "qwen"
           }

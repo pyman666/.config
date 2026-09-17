@@ -1,0 +1,40 @@
+{{- $proxy  := dig "proxy" "" . -}}
+{{- $apiKey := dig "dashscopeApiKey" "" . -}}
+# ~/.zshrc —— 由 chezmoi 生成（只在 macOS / Linux 上安装）
+# 改这里： chezmoi edit ~/.zshrc      改密钥/代理： chezmoi edit-config
+# 这台机器专属、不想进 Git 的东西放 ~/.zshrc.local
+
+PROMPT="🐈  🐾  🐾  🐾  🐾  🐾  🐾  🐾  🐾
+🐱 %F{blue}%n%f %F{green}%~%f
+👉 "
+
+# >>> tools >>>
+export PATH="$HOME/.local/bin:$PATH"
+
+# uv 的安装脚本会写 ~/.local/bin/env
+[ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
+
+# fnm（node 版本管理）装了才用
+command -v fnm >/dev/null 2>&1 && eval "$(fnm env --use-on-cd)"
+
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+# 原 conda base 环境迁移而来的全局 python 环境
+[ -d "$HOME/.venvs/py313/bin" ] && export PATH="$HOME/.venvs/py313/bin:$PATH"
+export UV_PYTHON_PREFERENCE=only-managed
+{{ if $proxy }}
+
+# >>> proxy (公司网) >>>
+export HTTP_PROXY="{{ $proxy }}"
+export HTTPS_PROXY="{{ $proxy }}"
+export NO_PROXY="localhost,127.0.0.1"
+export NODE_USE_ENV_PROXY=1
+{{- end }}
+{{ if $apiKey }}
+
+# >>> AI CLI keys >>>
+export DASHSCOPE_API_KEY="{{ $apiKey }}"
+{{- end }}
+
+# >>> local overrides (不进 Git) >>>
+[ -f "$HOME/.zshrc.local" ] && . "$HOME/.zshrc.local"

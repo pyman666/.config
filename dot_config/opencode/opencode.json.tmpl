@@ -1,3 +1,4 @@
+{{- $apiKey := dig "dashscopeApiKey" "" . -}}
 {
   "$schema": "https://opencode.ai/config.json",
   "provider": {
@@ -5,7 +6,7 @@
       "name": "Dashscope",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
-        "apiKey": "sk-xxx",
+        "apiKey": {{ $apiKey | toJson }},
         "baseURL": "https://dashscope.aliyuncs.com/compatible-mode/v1"
       },
       "models": {

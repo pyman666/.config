@@ -1,0 +1,5 @@
+# 全局 gitignore —— 所有仓库共享
+# 目标路径 ~/.config/git/ignore（Windows / macOS / Linux 上的 git 都读这个位置）
+**/.claude/settings.local.json
+.DS_Store
+Thumbs.db

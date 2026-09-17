@@ -1,0 +1,14 @@
+# 全局 npm CLI 清单 —— Windows / macOS / Linux 共用一份
+# 用法： npm install -g $(grep -v '^#' scripts/npm-packages.txt | tr '\n' ' ')
+# 两边安装脚本都读这个文件，所以加一行就三个平台都生效。
+# 装之前需要 node/npm（Windows: winget OpenJS.NodeJS.LTS 或 nvm-windows；macOS: brew install node 或 fnm）
+@anthropic-ai/claude-code
+@openai/codex
+opencode-ai
+@earendil-works/pi-coding-agent
+@playwright/cli
+bun
+@deepseek-ai/dsh
+
+# 下面这种是本地开发用的 link，不要在别的机器上装：
+# bpae

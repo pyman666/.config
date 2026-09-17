@@ -1,0 +1,46 @@
+{{- $gitName := dig "gitName" "" . -}}
+{{- $gitEmail := dig "gitEmail" "" . -}}
+{{- $proxy := dig "proxy" "" . -}}
+{{- $creds := dig "gitCredentials" (list) . -}}
+# ~/.gitconfig —— 由 chezmoi 生成
+# 改内容： chezmoi edit ~/.gitconfig      改机器相关值（姓名/邮箱/代理）： chezmoi edit-config
+[user]
+	name = {{ $gitName | toJson }}
+	email = {{ $gitEmail | toJson }}
+[core]
+	editor = vim
+{{- if eq .chezmoi.os "windows" }}
+	autocrlf = true
+{{- else }}
+	autocrlf = input
+{{- end }}
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[fetch]
+	prune = true
+[diff]
+	algorithm = histogram
+	colorMoved = default
+[color]
+	ui = auto
+[alias]
+	st = status -sb
+	co = checkout
+	lg = log --oneline --graph --decorate --all
+	# 只看自己没提交的改动
+	who = shortlog -sne
+{{- if $proxy }}
+
+# 本机走代理（公司网）： chezmoi edit-config 里改 proxy
+[http]
+	proxy = {{ $proxy | toJson }}
+[https]
+	proxy = {{ $proxy | toJson }}
+{{- end }}
+{{- range $c := $creds }}
+
+[credential {{ $c.url | toJson }}]
+	provider = {{ $c.provider | toJson }}
+{{- end }}

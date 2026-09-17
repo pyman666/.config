@@ -1,0 +1,20 @@
+# chezmoi 会把「没有属性前缀」的文件也当成目标文件复制到 ~ 下，
+# 所以仓库自身的元文件必须在这里忽略掉。
+README.md
+LICENSE
+.editorconfig
+bootstrap.ps1
+bootstrap.sh
+scripts
+docs
+{{- if ne .chezmoi.os "windows" }}
+
+# Windows 专属：pwsh profile 在 ~/Documents/PowerShell
+Documents
+{{- end }}
+{{- if eq .chezmoi.os "windows" }}
+
+# 非 Windows 专属：pwsh 在 Linux/macOS 用 ~/.config/powershell；Windows 上没有 zsh
+.config/powershell
+.zshrc
+{{- end }}

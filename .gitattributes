@@ -1,0 +1,15 @@
+# 仓库内统一存 LF，签出也保持 LF —— 换行由 chezmoi/模板决定，不让 git 自作主张。
+# 这条很重要：机器上 git 全局 core.autocrlf=true 时，没有本文件的话 pwsh profile
+# 和 vimrc 会被签成 CRLF，chezmoi 每次 apply 都显示"有改动"。
+* text=auto eol=lf
+
+# Windows 批处理必须是 CRLF
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# 明确二进制类型（将来放图标/字体时用）
+*.png binary
+*.jpg binary
+*.ico binary
+*.ttf binary
+*.otf binary

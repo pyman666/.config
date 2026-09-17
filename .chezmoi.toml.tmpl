@@ -1,0 +1,40 @@
+{{- /*
+  机器本地配置模板。
+  chezmoi init 用它生成 ~/.config/chezmoi/chezmoi.toml —— 这个文件不进 Git，
+  所有密钥、代理、公司账号、机器相关路径都只存在这里。
+
+  取值优先级：环境变量 > 已有的 chezmoi.toml > 默认值
+  所以反复运行 bootstrap 不会覆盖你手工改过的值。
+
+  手工编辑： chezmoi edit-config          查看当前值： chezmoi data
+*/ -}}
+{{- $cur := dict -}}
+{{- if hasKey .chezmoi.config "data" }}{{ $cur = .chezmoi.config.data }}{{ end -}}
+{{- /* sprig 的 coalesce 在全为空时返回 nil，所以外面再套一层 default */ -}}
+{{- $gitName  := default .chezmoi.username (coalesce (env "DOTFILES_GIT_NAME")  (dig "gitName"  "" $cur)) -}}
+{{- $gitEmail := default "" (coalesce (env "DOTFILES_GIT_EMAIL") (dig "gitEmail" "" $cur)) -}}
+{{- $proxy    := default "" (coalesce (env "DOTFILES_PROXY")     (dig "proxy"    "" $cur)) -}}
+{{- $apiKey   := default "" (coalesce (env "DASHSCOPE_API_KEY")  (dig "dashscopeApiKey" "" $cur)) -}}
+{{- $dfltShell := "/bin/bash" -}}
+{{- if eq .chezmoi.os "windows" -}}{{- $dfltShell = "C:/Program Files/Git/bin/bash.exe" -}}
+{{- else if eq .chezmoi.os "darwin" -}}{{- $dfltShell = "/bin/zsh" -}}{{- end -}}
+{{- $shell := default $dfltShell (coalesce (env "DOTFILES_SHELL_PATH") (dig "shellPath" "" $cur)) -}}
+{{- /* 公司 git 域：bootstrap 会把已有 ~/.gitconfig 里的 [credential ...] 段以 JSON 传进来 */ -}}
+{{- $creds := list -}}
+{{- if env "DOTFILES_GIT_CREDENTIALS" }}{{ $creds = fromJson (env "DOTFILES_GIT_CREDENTIALS") }}{{ end -}}
+{{- if eq (len $creds) 0 }}{{ $creds = dig "gitCredentials" (list) $cur }}{{ end -}}
+[data]
+  gitName         = {{ $gitName | toJson }}
+  gitEmail        = {{ $gitEmail | toJson }}
+  proxy           = {{ $proxy | toJson }}
+  dashscopeApiKey = {{ $apiKey | toJson }}
+  shellPath       = {{ $shell | toJson }}
+
+# 公司机才需要的 git credential 段（含公司账号名，绝不能进 Git）。
+# ~/.gitconfig 里有 [credential "…"] 时才会渲染出来；没有这段就是普通个人机。
+# 手工加一个域： chezmoi edit-config，然后照抄下面格式
+{{- range $c := $creds }}
+  [[data.gitCredentials]]
+    url      = {{ $c.url | toJson }}
+    provider = {{ $c.provider | toJson }}
+{{- end }}

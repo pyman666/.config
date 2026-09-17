@@ -1,0 +1,34 @@
+{{- $proxy  := dig "proxy" "" . -}}
+{{- $apiKey := dig "dashscopeApiKey" "" . -}}
+# Windows PowerShell 7 profile（目标：~/Documents/PowerShell/Microsoft.PowerShell_profile.ps1）
+# 改这个文件： chezmoi edit '~\Documents\PowerShell\Microsoft.PowerShell_profile.ps1'
+# 代理 / 密钥等机器相关值： chezmoi edit-config
+
+# --- oh-my-posh：winget 装的是 MSIX，主题目录带版本号，所以动态定位 ---
+$ompPackage = Get-ChildItem "C:\Program Files\WindowsApps" -Directory -Filter "ohmyposh.cli_*" -ErrorAction SilentlyContinue |
+    Sort-Object LastWriteTime -Descending |
+    Select-Object -First 1
+
+if ($ompPackage) {
+    $env:POSH_THEMES_PATH = Join-Path $ompPackage.FullName "themes"
+    oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\jandedobbeleer.omp.json" | Invoke-Expression
+}
+
+Import-Module Terminal-Icons -ErrorAction SilentlyContinue
+
+Set-PSReadLineOption -PredictionSource History
+Set-PSReadLineOption -PredictionViewStyle ListView
+{{ if $proxy }}
+
+# --- 公司网代理（chezmoi.toml 里的 proxy） ---
+$env:HTTP_PROXY = "{{ $proxy }}"
+$env:HTTPS_PROXY = "{{ $proxy }}"
+$env:NODE_USE_ENV_PROXY = "1"
+{{- end }}
+{{ if $apiKey }}
+
+# --- codex 用 env_key = "DASHSCOPE_API_KEY" 读密钥 ---
+$env:DASHSCOPE_API_KEY = "{{ $apiKey }}"
+{{- end }}
+
+$OutputEncoding = [Console]::OutputEncoding = [System.Text.Encoding]::UTF8

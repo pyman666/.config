@@ -1,0 +1,10 @@
+# 这些目标文件里含真实密钥 / 公司账号。
+# chezmoi add、re-add、diff 会把它们当作 private 处理（提示、并在部分输出里打码），
+# 目的是防止把 sk-xxx 提交到 GitHub。
+# 真值只放在 ~/.config/chezmoi/chezmoi.toml（不进 Git）。
+.gitconfig
+.claude/settings.json
+.pi/agent/models.json
+.pi/agent/auth.json
+.codex/auth.json
+.config/opencode/opencode.json

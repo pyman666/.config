@@ -1,0 +1,23 @@
+{{- $proxy  := dig "proxy" "" . -}}
+{{- $apiKey := dig "dashscopeApiKey" "" . -}}
+# macOS / Linux 上的 PowerShell 7 profile（目标：~/.config/powershell/Microsoft.PowerShell_profile.ps1）
+# Windows 上的 profile 在 dot_documents/PowerShell/ 下，两份是分开的。
+
+if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
+    oh-my-posh init pwsh | Invoke-Expression
+}
+
+Import-Module Terminal-Icons -ErrorAction SilentlyContinue
+
+Set-PSReadLineOption -PredictionSource History
+Set-PSReadLineOption -PredictionViewStyle ListView
+{{ if $proxy }}
+
+$env:HTTP_PROXY = "{{ $proxy }}"
+$env:HTTPS_PROXY = "{{ $proxy }}"
+$env:NODE_USE_ENV_PROXY = "1"
+{{- end }}
+{{ if $apiKey }}
+
+$env:DASHSCOPE_API_KEY = "{{ $apiKey }}"
+{{- end }}

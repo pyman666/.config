@@ -1,0 +1,10 @@
+# 编辑器 / 系统垃圾
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# 本地覆盖文件（万一需要放不想提交的东西）
+*.local.toml
+*.local.ps1
+*.local.sh

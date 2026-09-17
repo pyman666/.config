@@ -1,6 +1,5 @@
 {
-  "lastChangelogVersion": "0.85.1",
-  "shellPath": "C:/Users/xxx/AppData/Local/Programs/Git/bin/bash.exe",
+  "shellPath": {{ dig "shellPath" "/bin/bash" . | toJson }},
   "defaultProvider": "dashscope",
   "defaultModel": "qwen3.8-27b",
   "defaultThinkingLevel": "high",
