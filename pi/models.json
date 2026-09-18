@@ -3,7 +3,7 @@
     "dashscope": {
       "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
       "api": "openai-completions",
-      "apiKey": "sk-xxx",
+      "apiKey": "sk-b833c5b2793d4084bd0f204a92c0bb45",
       "compat": {
         "supportsDeveloperRole": false
       },
@@ -47,6 +47,25 @@
           "compat": {
             "thinkingFormat": "qwen"
           }
+        },
+        {
+          "id": "deepseek-v4.1-flash",
+          "name": "Deepseek v4.1 Flash",
+          "contextWindow": 1000000,
+          "maxTokens": 384000,
+          "input": ["text"],
+          "reasoning": true,
+		  "compat": {
+            "requiresReasoningContentOnAssistantMessages": true,
+            "thinkingFormat": "deepseek",
+            "reasoningEffortMap": {
+              "minimal": "high",
+              "low": "high",
+              "medium": "high",
+              "high": "high",
+              "xhigh": "max"
+            }
+		  }
         }
       ]
     }
