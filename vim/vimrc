@@ -10,6 +10,7 @@ call plug#end()
 
 set number
 set relativenumber
+set encoding=utf-8
 
 
 " File Tree
