@@ -11,6 +11,7 @@ Import-Module Terminal-Icons
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
 
+Set-Alias lg lazygit
 
 $env:HTTP_PROXY="http://127.0.0.1:3128"
 $env:HTTPS_PROXY="http://127.0.0.1:3128"
